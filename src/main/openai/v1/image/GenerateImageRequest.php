@@ -105,6 +105,6 @@ class GenerateImageRequest extends OpenaiApiRequest
 
     protected function apiPath(): string
     {
-        return "https://api.openai.com/v1/images/generations";
+        return "/v1/images/generations";
     }
 }

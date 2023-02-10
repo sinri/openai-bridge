@@ -64,4 +64,29 @@ abstract class OpenaiApiRequest
         $this->responseMeta = $curl->getResponseMeta();
         return $result;
     }
+
+    public function callPostForm(
+        string $path,
+        array  $queries = [],
+        array  $fields = []
+    )
+    {
+        $curl = new ArkCurl(Ark()->logger("openai-api"));
+        $curl->prepareToRequestURL("POST", "https://api.openai.com" . $path);
+        if (!empty($queries)) {
+            foreach ($queries as $k => $v) {
+                $curl->setQueryField($k, $v);
+            }
+        }
+        if (!empty($fields)) {
+            foreach ($fields as $k => $v) {
+                $curl->setPostFormField($k, $v);
+            }
+        }
+        $result = $curl->setHeader("Authorization", "Bearer " . $this->getSDKCore()->getApiKey())
+            ->setHeader("OpenAI-Organization", $this->getSDKCore()->getOrgId())
+            ->execute();
+        $this->responseMeta = $curl->getResponseMeta();
+        return $result;
+    }
 }
