@@ -1,0 +1,27 @@
+{
+  "name": "sinri/openai-bridge",
+  "description": "OpenAI API SDK and Proxy in PHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sinri Edogawa",
+      "email": "e.joshua.s.e@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "~7.4",
+    "sinri/ark": "3.4.4",
+    "sinri/ark-curl": "2.1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "sinri\\openai\\bridge\\": "src/main/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "sinri\\openai\\bridge\\test\\": "src/test/"
+    }
+  }
+}
