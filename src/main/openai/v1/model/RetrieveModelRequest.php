@@ -1,6 +1,6 @@
 <?php
 
-namespace sinri\openai\bridge\openai\v1;
+namespace sinri\openai\bridge\openai\v1\model;
 
 use sinri\openai\bridge\openai\OpenaiApiRequest;
 
@@ -14,14 +14,10 @@ class RetrieveModelRequest extends OpenaiApiRequest
         $this->modelId = $modelId;
     }
 
-    public function call()
+    public function call(): ModelEntity
     {
-        $responseMeta = null;
         $result = $this->callGet($this->apiPath(), []);
-        if (!!$result) {
-            $resp = new GetModelsResponse($result);
-        }
-        return $result;
+        return ModelEntity::fromJsonString($result);
     }
 
     protected function apiPath(): string

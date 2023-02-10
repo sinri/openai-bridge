@@ -1,6 +1,6 @@
 <?php
 
-namespace sinri\openai\bridge\openai\v1;
+namespace sinri\openai\bridge\openai\v1\completion;
 
 use sinri\openai\bridge\openai\OpenaiApiRequest;
 
@@ -350,8 +350,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
         }
 
         $result = $this->callPostJson($this->apiPath(), [], $body);
-
-        return new CreateCompletionResponse($result);
+        return CreateCompletionResponse::fromJsonString($result);
     }
 
     protected function apiPath(): string

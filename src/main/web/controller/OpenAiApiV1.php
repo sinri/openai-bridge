@@ -3,8 +3,8 @@
 namespace sinri\openai\bridge\web\controller;
 
 use sinri\ark\web\implement\ArkWebController;
-use sinri\openai\bridge\openai\v1\CreateCompletionRequest;
-use sinri\openai\bridge\openai\v1\GetModelsRequest;
+use sinri\openai\bridge\openai\v1\completion\CreateCompletionRequest;
+use sinri\openai\bridge\openai\v1\model\GetModelsRequest;
 
 /**
  * http://chat-lab.leqee.com/index.php/bridge/OpenAiApiV1/getModels
@@ -56,15 +56,15 @@ class OpenAiApiV1 extends ArkWebController
 
         $resp = $api->call();
 
-        $choices = $resp->getChoices();
+        $choices = $resp->getChoiceEntities();
         $choiceArray = [];
         foreach ($choices as $choice) {
-            $choiceArray[] = $choice->toJsonObject();
+            $choiceArray[] = $choice->getProperties();
         }
 
         $this->_sayOK([
-            'id' => $resp->getId(),
-            'usage' => $resp->getUsage(),
+            'id' => $resp->id,
+            'usage' => $resp->getUsageEntity(),
             'choices' => $choiceArray,
         ]);
     }

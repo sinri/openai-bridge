@@ -17,12 +17,12 @@
   },
   "autoload": {
     "psr-4": {
-      "sinri\\openai\\bridge\\": "src/main/"
+      "sinri\\openai\\bridge\\": "src/main"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "sinri\\openai\\bridge\\test\\": "src/test/"
+      "sinri\\openai\\bridge\\test\\": "src/test"
     }
   }
 }
