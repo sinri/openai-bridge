@@ -14,7 +14,6 @@ $webService = Ark()->webService();
 $webService->getRouter()
     ->loadAutoRestfulControllerRoot(
         "bridge/",
-        "sinri\\openai\\bridge\\web\\controller",
-        []
+        "sinri\\openai\\bridge\\web\\controller"
     );
 $webService->handleRequestForWeb();

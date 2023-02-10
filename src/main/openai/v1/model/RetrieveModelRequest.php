@@ -16,7 +16,7 @@ class RetrieveModelRequest extends OpenaiApiRequest
 
     public function call(): ModelEntity
     {
-        $result = $this->callGet($this->apiPath(), []);
+        $result = $this->callGet($this->apiPath());
         return ModelEntity::fromJsonString($result);
     }
 

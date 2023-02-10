@@ -3,7 +3,6 @@
 namespace sinri\openai\bridge\openai\v1\model;
 
 use sinri\openai\bridge\openai\AbstractEntity;
-use sinri\openai\bridge\openai\OpenaiApiResponse;
 
 /**
  * @property-read array data

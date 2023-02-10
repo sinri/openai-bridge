@@ -8,7 +8,7 @@ class GetModelsRequest extends OpenaiApiRequest
 {
     public function call(): ModelsEntity
     {
-        $result = $this->callGet($this->apiPath(), []);
+        $result = $this->callGet($this->apiPath());
         return ModelsEntity::fromJsonString($result);
     }
 

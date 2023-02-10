@@ -53,7 +53,7 @@ class CompletionRequest extends OpenaiApiRequest
      */
     private ?float $topP = null;
     /**
-     * @var int|null Optional
+     * @var int Optional
      * Defaults to 1
      * How many completions to generate for each prompt.
      * Note: Because this parameter generates many completions, it can quickly consume your token quota.
@@ -79,7 +79,7 @@ class CompletionRequest extends OpenaiApiRequest
      */
     private ?int $logProbs = null;
     /**
-     * @var bool|null Optional
+     * @var bool Optional
      * Defaults to false
      * Echo back the prompt in addition to the completion
      */
@@ -150,90 +150,90 @@ class CompletionRequest extends OpenaiApiRequest
     }
 
     /**
-     * @param string|null $prompt
+     * @param string $prompt
      * @return CompletionRequest
      */
-    public function setPrompt(?string $prompt): CompletionRequest
+    public function setPrompt(string $prompt): CompletionRequest
     {
         $this->prompt = $prompt;
         return $this;
     }
 
     /**
-     * @param string|null $suffix
+     * @param string $suffix
      * @return CompletionRequest
      */
-    public function setSuffix(?string $suffix): CompletionRequest
+    public function setSuffix(string $suffix): CompletionRequest
     {
         $this->suffix = $suffix;
         return $this;
     }
 
     /**
-     * @param int|null $maxTokens
+     * @param int $maxTokens
      * @return CompletionRequest
      */
-    public function setMaxTokens(?int $maxTokens): CompletionRequest
+    public function setMaxTokens(int $maxTokens): CompletionRequest
     {
         $this->maxTokens = $maxTokens;
         return $this;
     }
 
     /**
-     * @param float|int|string $temperature
+     * @param float $temperature
      * @return CompletionRequest
      */
-    public function setTemperature($temperature)
+    public function setTemperature(float $temperature): CompletionRequest
     {
         $this->temperature = $temperature;
         return $this;
     }
 
     /**
-     * @param float|int|string $topP
+     * @param float $topP
      * @return CompletionRequest
      */
-    public function setTopP($topP)
+    public function setTopP(float $topP): CompletionRequest
     {
         $this->topP = $topP;
         return $this;
     }
 
     /**
-     * @param int|null $n
+     * @param int $n
      * @return CompletionRequest
      */
-    public function setN(?int $n): CompletionRequest
+    public function setN(int $n): CompletionRequest
     {
         $this->n = $n;
         return $this;
     }
 
     /**
-     * @param bool|null $stream
+     * @param bool $stream
      * @return CompletionRequest
      */
-    public function setStream(?bool $stream): CompletionRequest
+    public function setStream(bool $stream): CompletionRequest
     {
         $this->stream = $stream;
         return $this;
     }
 
     /**
-     * @param int|null $logProbs
+     * @param int $logProbs
      * @return CompletionRequest
      */
-    public function setLogProbs(?int $logProbs): CompletionRequest
+    public function setLogProbs(int $logProbs): CompletionRequest
     {
         $this->logProbs = $logProbs;
         return $this;
     }
 
     /**
-     * @param bool|null $echo
+     * @param bool $echo
      * @return CompletionRequest
      */
-    public function setEcho(?bool $echo): CompletionRequest
+    public function setEcho(bool $echo): CompletionRequest
     {
         $this->echo = $echo;
         return $this;
@@ -243,57 +243,57 @@ class CompletionRequest extends OpenaiApiRequest
      * @param array|string $stop
      * @return CompletionRequest
      */
-    public function setStop($stop)
+    public function setStop($stop): CompletionRequest
     {
         $this->stop = $stop;
         return $this;
     }
 
     /**
-     * @param float|int|string|null $presencePenalty
+     * @param float $presencePenalty
      * @return CompletionRequest
      */
-    public function setPresencePenalty($presencePenalty)
+    public function setPresencePenalty(float $presencePenalty): CompletionRequest
     {
         $this->presencePenalty = $presencePenalty;
         return $this;
     }
 
     /**
-     * @param float|int|string|null $frequencyPenalty
+     * @param float $frequencyPenalty
      * @return CompletionRequest
      */
-    public function setFrequencyPenalty($frequencyPenalty)
+    public function setFrequencyPenalty(float $frequencyPenalty): CompletionRequest
     {
         $this->frequencyPenalty = $frequencyPenalty;
         return $this;
     }
 
     /**
-     * @param int|null $bestOf
+     * @param int $bestOf
      * @return CompletionRequest
      */
-    public function setBestOf(?int $bestOf): CompletionRequest
+    public function setBestOf(int $bestOf): CompletionRequest
     {
         $this->bestOf = $bestOf;
         return $this;
     }
 
     /**
-     * @param array|null $logitBias
+     * @param array $logitBias
      * @return CompletionRequest
      */
-    public function setLogitBias(?array $logitBias): CompletionRequest
+    public function setLogitBias(array $logitBias): CompletionRequest
     {
         $this->logitBias = $logitBias;
         return $this;
     }
 
     /**
-     * @param string|null $user
+     * @param string $user
      * @return CompletionRequest
      */
-    public function setUser(?string $user): CompletionRequest
+    public function setUser(string $user): CompletionRequest
     {
         $this->user = $user;
         return $this;
@@ -318,18 +318,12 @@ class CompletionRequest extends OpenaiApiRequest
         if ($this->topP !== null) {
             $body['top_p'] = $this->topP;
         }
-        if ($this->n !== null) {
-            $body['n'] = $this->n;
-        }
-        if ($this->stream !== null) {
-            $body['stream'] = $this->stream;
-        }
+        $body['n'] = $this->n;
+        $body['stream'] = $this->stream;
         if ($this->logProbs !== null) {
             $body['logprobs'] = $this->logProbs;
         }
-        if ($this->echo !== null) {
-            $body['echo'] = $this->echo;
-        }
+        $body['echo'] = $this->echo;
         if ($this->stop !== null) {
             $body['stop'] = $this->stop;
         }
