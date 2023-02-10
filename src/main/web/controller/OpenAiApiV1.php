@@ -3,14 +3,64 @@
 namespace sinri\openai\bridge\web\controller;
 
 use sinri\ark\web\implement\ArkWebController;
-use sinri\openai\bridge\openai\v1\OpenaiModels;
+use sinri\openai\bridge\openai\v1\CreateCompletionRequest;
+use sinri\openai\bridge\openai\v1\GetModelsRequest;
 
+/**
+ * http://chat-lab.leqee.com/index.php/bridge/OpenAiApiV1/getModels
+ */
 class OpenAiApiV1 extends ArkWebController
 {
     public function getModels()
     {
-        $api = new OpenaiModels();
+        $api = new GetModelsRequest();
         $result = $api->call();
-        echo $result;
+
+        $models = [];
+        for ($i = 0; $i < $result->getTotalModels(); $i++) {
+            $model = $result->getModelAt($i);
+            $models[] = $model;
+        }
+
+        $this->_sayOK([
+            'total' => $result->getTotalModels(),
+            'models' => $models,
+        ]);
+    }
+
+    public function completion()
+    {
+        $model = $this->_readIndispensableRequest("model");
+
+        $api = new CreateCompletionRequest($model);
+
+        $prompt = $this->_readRequest("prompt");
+        if (!empty($prompt)) {
+            $api->setPrompt($prompt);
+        }
+
+        $max_tokens = $this->_readRequest("max_tokens", 1024);
+        $api->setMaxTokens($max_tokens);
+
+        $temperature = $this->_readRequest("temperature");
+        if (!empty($temperature)) {
+            $api->setTemperature($temperature);
+        }
+        $topP = $this->_readRequest("top_p");
+        if (!empty($topP)) {
+            $api->setTopP($topP);
+        }
+
+        $n = $this->_readRequest("n", 1);
+        $api->setN($n);
+
+        $resp = $api->call();
+
+//        $choices = $resp->getChoices();
+//        foreach ($choices as $choice) {
+//           $choice->
+//        }
+
+        $this->_sayOK($resp);
     }
 }

@@ -12,7 +12,8 @@
   "require": {
     "php": "~7.4",
     "sinri/ark": "3.4.4",
-    "sinri/ark-curl": "2.1.2"
+    "sinri/ark-curl": "2.1.2",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
