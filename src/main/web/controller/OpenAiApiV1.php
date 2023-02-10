@@ -64,7 +64,7 @@ class OpenAiApiV1 extends ArkWebController
 
         $this->_sayOK([
             'id' => $resp->id,
-            'usage' => $resp->getUsageEntity(),
+            'usage' => $resp->getUsageEntity()->getProperties(),
             'choices' => $choiceArray,
         ]);
     }
