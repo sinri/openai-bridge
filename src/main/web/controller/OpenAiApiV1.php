@@ -4,11 +4,9 @@ namespace sinri\openai\bridge\web\controller;
 
 use sinri\ark\web\implement\ArkWebController;
 use sinri\openai\bridge\openai\v1\completion\CompletionRequest;
+use sinri\openai\bridge\openai\v1\image\GenerateImageRequest;
 use sinri\openai\bridge\openai\v1\model\GetModelsRequest;
 
-/**
- * http://chat-lab.leqee.com/index.php/bridge/OpenAiApiV1/getModels
- */
 class OpenAiApiV1 extends ArkWebController
 {
     public function getModels()
@@ -67,5 +65,15 @@ class OpenAiApiV1 extends ArkWebController
             'usage' => $resp->getUsageEntity()->getProperties(),
             'choices' => $choiceArray,
         ]);
+    }
+
+    public function generateImage()
+    {
+        $prompt = $this->_readIndispensableRequest("prompt");
+        $api = new GenerateImageRequest($prompt);
+        $api->setN(1);
+        $result = $api->call();
+        $urls = $result->getImageUrls();
+        $this->_sayOK(['image_urls' => $urls]);
     }
 }
