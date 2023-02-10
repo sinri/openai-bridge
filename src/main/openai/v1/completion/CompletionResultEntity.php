@@ -11,10 +11,10 @@ use sinri\openai\bridge\openai\AbstractEntity;
  * @property-read  array[] $choices
  * @property-read  array $usage
  */
-class CreateCompletionResponse extends AbstractEntity
+class CompletionResultEntity extends AbstractEntity
 {
     /**
-     * @var CreateCompletionResponseChoice[]
+     * @var CompletionChoiceEntity[]
      */
     private array $choiceEntities = [];
 
@@ -23,12 +23,12 @@ class CreateCompletionResponse extends AbstractEntity
         parent::__construct($array);
         $this->assetObjectType("text_completion");
         foreach ($this->choices as $b) {
-            $this->choiceEntities[] = new CreateCompletionResponseChoice($b);
+            $this->choiceEntities[] = new CompletionChoiceEntity($b);
         }
     }
 
     /**
-     * @return CreateCompletionResponseChoice[]
+     * @return CompletionChoiceEntity[]
      */
     public function getChoiceEntities(): array
     {
@@ -36,8 +36,8 @@ class CreateCompletionResponse extends AbstractEntity
         return $this->choiceEntities;
     }
 
-    public function getUsageEntity(): CreateCompletionResponseUsage
+    public function getUsageEntity(): CompletionUsageEntity
     {
-        return new CreateCompletionResponseUsage($this->usage);
+        return new CompletionUsageEntity($this->usage);
     }
 }

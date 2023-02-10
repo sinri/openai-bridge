@@ -3,7 +3,7 @@
 namespace sinri\openai\bridge\web\controller;
 
 use sinri\ark\web\implement\ArkWebController;
-use sinri\openai\bridge\openai\v1\completion\CreateCompletionRequest;
+use sinri\openai\bridge\openai\v1\completion\CompletionRequest;
 use sinri\openai\bridge\openai\v1\model\GetModelsRequest;
 
 /**
@@ -32,7 +32,7 @@ class OpenAiApiV1 extends ArkWebController
     {
         $model = $this->_readIndispensableRequest("model");
 
-        $api = new CreateCompletionRequest($model);
+        $api = new CompletionRequest($model);
 
         $prompt = $this->_readRequest("prompt");
         if (!empty($prompt)) {

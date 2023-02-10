@@ -4,7 +4,7 @@ namespace sinri\openai\bridge\openai\v1\completion;
 
 use sinri\openai\bridge\openai\OpenaiApiRequest;
 
-class CreateCompletionRequest extends OpenaiApiRequest
+class CompletionRequest extends OpenaiApiRequest
 {
     /**
      * @var string
@@ -151,9 +151,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param string|null $prompt
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setPrompt(?string $prompt): CreateCompletionRequest
+    public function setPrompt(?string $prompt): CompletionRequest
     {
         $this->prompt = $prompt;
         return $this;
@@ -161,9 +161,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param string|null $suffix
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setSuffix(?string $suffix): CreateCompletionRequest
+    public function setSuffix(?string $suffix): CompletionRequest
     {
         $this->suffix = $suffix;
         return $this;
@@ -171,9 +171,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param int|null $maxTokens
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setMaxTokens(?int $maxTokens): CreateCompletionRequest
+    public function setMaxTokens(?int $maxTokens): CompletionRequest
     {
         $this->maxTokens = $maxTokens;
         return $this;
@@ -181,7 +181,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param float|int|string $temperature
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
     public function setTemperature($temperature)
     {
@@ -191,7 +191,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param float|int|string $topP
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
     public function setTopP($topP)
     {
@@ -201,9 +201,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param int|null $n
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setN(?int $n): CreateCompletionRequest
+    public function setN(?int $n): CompletionRequest
     {
         $this->n = $n;
         return $this;
@@ -211,9 +211,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param bool|null $stream
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setStream(?bool $stream): CreateCompletionRequest
+    public function setStream(?bool $stream): CompletionRequest
     {
         $this->stream = $stream;
         return $this;
@@ -221,9 +221,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param int|null $logProbs
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setLogProbs(?int $logProbs): CreateCompletionRequest
+    public function setLogProbs(?int $logProbs): CompletionRequest
     {
         $this->logProbs = $logProbs;
         return $this;
@@ -231,9 +231,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param bool|null $echo
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setEcho(?bool $echo): CreateCompletionRequest
+    public function setEcho(?bool $echo): CompletionRequest
     {
         $this->echo = $echo;
         return $this;
@@ -241,7 +241,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param array|string $stop
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
     public function setStop($stop)
     {
@@ -251,7 +251,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param float|int|string|null $presencePenalty
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
     public function setPresencePenalty($presencePenalty)
     {
@@ -261,7 +261,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param float|int|string|null $frequencyPenalty
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
     public function setFrequencyPenalty($frequencyPenalty)
     {
@@ -271,9 +271,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param int|null $bestOf
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setBestOf(?int $bestOf): CreateCompletionRequest
+    public function setBestOf(?int $bestOf): CompletionRequest
     {
         $this->bestOf = $bestOf;
         return $this;
@@ -281,9 +281,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param array|null $logitBias
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setLogitBias(?array $logitBias): CreateCompletionRequest
+    public function setLogitBias(?array $logitBias): CompletionRequest
     {
         $this->logitBias = $logitBias;
         return $this;
@@ -291,15 +291,15 @@ class CreateCompletionRequest extends OpenaiApiRequest
 
     /**
      * @param string|null $user
-     * @return CreateCompletionRequest
+     * @return CompletionRequest
      */
-    public function setUser(?string $user): CreateCompletionRequest
+    public function setUser(?string $user): CompletionRequest
     {
         $this->user = $user;
         return $this;
     }
 
-    public function call(): CreateCompletionResponse
+    public function call(): CompletionResultEntity
     {
         $body = ['model' => $this->modelId];
 
@@ -350,7 +350,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
         }
 
         $result = $this->callPostJson($this->apiPath(), [], $body);
-        return CreateCompletionResponse::fromJsonString($result);
+        return CompletionResultEntity::fromJsonString($result);
     }
 
     protected function apiPath(): string

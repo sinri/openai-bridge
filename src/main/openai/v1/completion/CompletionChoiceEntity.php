@@ -10,7 +10,7 @@ use sinri\openai\bridge\openai\AbstractEntity;
  * @property-read mixed|null logprobs
  * @property-read string finish_reason
  */
-class CreateCompletionResponseChoice extends AbstractEntity
+class CompletionChoiceEntity extends AbstractEntity
 {
 
 }

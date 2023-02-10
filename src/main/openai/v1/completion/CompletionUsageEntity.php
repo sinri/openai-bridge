@@ -9,6 +9,6 @@ use sinri\openai\bridge\openai\AbstractEntity;
  * @property-read int completion_tokens
  * @property-read int total_tokens
  */
-class CreateCompletionResponseUsage extends AbstractEntity
+class CompletionUsageEntity extends AbstractEntity
 {
 }
