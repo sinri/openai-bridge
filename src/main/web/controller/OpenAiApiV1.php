@@ -2,6 +2,8 @@
 
 namespace sinri\openai\bridge\web\controller;
 
+use sinri\ark\io\exception\TargetFileNotFoundError;
+use sinri\ark\web\exception\ArkWebRequestFailed;
 use sinri\ark\web\implement\ArkWebController;
 use sinri\openai\bridge\openai\v1\completion\CompletionRequest;
 use sinri\openai\bridge\openai\v1\image\GenerateImageRequest;
@@ -67,7 +69,7 @@ class OpenAiApiV1 extends ArkWebController
         ]);
     }
 
-    public function generateImage()
+    public function generateImageForUrl()
     {
         $prompt = $this->_readIndispensableRequest("prompt");
         $api = new GenerateImageRequest($prompt);
@@ -75,5 +77,20 @@ class OpenAiApiV1 extends ArkWebController
         $result = $api->call();
         $urls = $result->getImageUrls();
         $this->_sayOK(['image_urls' => $urls]);
+    }
+
+    public function generateImageForOutput()
+    {
+        $prompt = $this->_readIndispensableRequest("prompt");
+        $api = new GenerateImageRequest($prompt);
+        $api->setN(1);
+        $result = $api->call();
+        $urls = $result->getImageUrls();
+        if (empty($urls)) throw new ArkWebRequestFailed("not image generated");
+        try {
+            $done = $this->_getOutputHandler()->downloadFileIndirectly($urls[0]);
+        } catch (TargetFileNotFoundError $e) {
+            throw new ArkWebRequestFailed('image generated but url invalid', ['url' => $urls[0]], 404, $e);
+        }
     }
 }
