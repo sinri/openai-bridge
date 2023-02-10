@@ -1,12 +1,14 @@
 <?php
+
 namespace sinri\openai\bridge;
 
-use sinri\ark\core\ArkLogger;
+use sinri\openai\bridge\openai\OpenaiSDKCore;
 
 class OpenaiBridgeCore
 {
-    public static function logger(): ArkLogger
+
+    public static function getOpenaiSDKCore(): OpenaiSDKCore
     {
-        return ArkLogger::getDefaultLogger();
+        return new OpenaiSDKCore(Ark()->readConfig(["openai", "key"]), Ark()->readConfig(["openai", "org_id"]));
     }
 }

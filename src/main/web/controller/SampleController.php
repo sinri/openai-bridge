@@ -10,4 +10,5 @@ class SampleController extends ArkWebController
     {
         $this->_sayOK(["method" => __METHOD__]);
     }
+
 }
