@@ -21,12 +21,12 @@ class CreateCompletionRequest extends OpenaiApiRequest
      *  <|endoftext|> is the document separator that the model sees during training,
      *  so if a prompt is not specified the model will generate as if from the beginning of a new document.
      */
-    private ?string $prompt;
+    private ?string $prompt = null;
     /**
      * @var string|null
      * The suffix that comes after a completion of inserted text.
      */
-    private ?string $suffix;
+    private ?string $suffix = null;
     /**
      * @var int|null integer Optional
      * Defaults to 16
@@ -34,24 +34,24 @@ class CreateCompletionRequest extends OpenaiApiRequest
      * The token count of your prompt plus max_tokens cannot exceed the model's context length.
      * Most models have a context length of 2048 tokens (except for the newest models, which support 4096).
      */
-    private ?int $maxTokens;
+    private ?int $maxTokens = null;
     /**
-     * @var numeric Optional
+     * @var float|null Optional
      * Defaults to 1
      * What sampling temperature to use, between 0 and 2.
      * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      * We generally recommend altering this or top_p but not both.
      */
-    private $temperature;
+    private ?float $temperature = null;
     /**
-     * @var numeric Optional
+     * @var float|null Optional
      * Defaults to 1
      * An alternative to sampling with temperature, called nucleus sampling,
      *  where the model considers the results of the tokens with top_p probability mass.
      *  So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      * We generally recommend altering this or temperature but not both.
      */
-    private $topP;
+    private ?float $topP = null;
     /**
      * @var int|null Optional
      * Defaults to 1
@@ -59,15 +59,15 @@ class CreateCompletionRequest extends OpenaiApiRequest
      * Note: Because this parameter generates many completions, it can quickly consume your token quota.
      *  Use carefully and ensure that you have reasonable settings for max_tokens and stop.
      */
-    private ?int $n;
+    private int $n = 1;
     /**
-     * @var bool|null Optional
+     * @var bool Optional
      * Defaults to false
      * Whether to stream back partial progress.
      *  If set, tokens will be sent as data-only server-sent events as they become available,
      *  with the stream terminated by a data: [DONE] message.
      */
-    private ?bool $stream;
+    private bool $stream = false;
     /**
      * @var int|null Optional
      * Defaults to null
@@ -77,22 +77,22 @@ class CreateCompletionRequest extends OpenaiApiRequest
      * The maximum value for logprobs is 5.
      *  If you need more than this, please contact us through our Help center and describe your use case.
      */
-    private ?int $logProbs;
+    private ?int $logProbs = null;
     /**
      * @var bool|null Optional
      * Defaults to false
      * Echo back the prompt in addition to the completion
      */
-    private ?bool $echo;
+    private bool $echo = false;
     /**
      * @var string|array Optional
      * Defaults to null
      * Up to 4 sequences where the API will stop generating further tokens.
      *  The returned text will not contain the stop sequence.
      */
-    private $stop;
+    private $stop = null;
     /**
-     * @var numeric|null number Optional
+     * @var float|null number Optional
      * Defaults to 0
      * Number between -2.0 and 2.0.
      *  Positive values penalize new tokens based on whether they appear in the text so far,
@@ -101,9 +101,9 @@ class CreateCompletionRequest extends OpenaiApiRequest
      * See more information about frequency and presence penalties.
      * @see https://platform.openai.com/docs/api-reference/parameter-details
      */
-    private $presencePenalty;
+    private ?float $presencePenalty = null;
     /**
-     * @var numeric|null number Optional
+     * @var float|null number Optional
      * Defaults to 0
      * Number between -2.0 and 2.0.
      *  Positive values penalize new tokens based on their existing frequency in the text so far,
@@ -112,7 +112,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
      * See more information about frequency and presence penalties.
      * @see https://platform.openai.com/docs/api-reference/parameter-details
      */
-    private $frequencyPenalty;
+    private ?float $frequencyPenalty = null;
     /**
      * @var int|null Optional
      * Defaults to 1
@@ -123,7 +123,7 @@ class CreateCompletionRequest extends OpenaiApiRequest
      * Note: Because this parameter generates many completions, it can quickly consume your token quota.
      *  Use carefully and ensure that you have reasonable settings for max_tokens and stop.
      */
-    private ?int $bestOf;
+    private ?int $bestOf = null;
     /**
      * @var array|null map Optional
      * Defaults to null
@@ -136,12 +136,12 @@ class CreateCompletionRequest extends OpenaiApiRequest
      *  values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
      * As an example, you can pass {"50256": -100} to prevent the <|endoftext|> token from being generated.
      */
-    private ?array $logitBias;
+    private ?array $logitBias = null;
     /**
      * @var string|null Optional
      * A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. Learn more.
      */
-    private ?string $user;
+    private ?string $user = null;
 
     public function __construct(string $modelId)
     {
