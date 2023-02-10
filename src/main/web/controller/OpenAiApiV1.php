@@ -59,7 +59,7 @@ class OpenAiApiV1 extends ArkWebController
         $choices = $resp->getChoices();
         $choiceArray = [];
         foreach ($choices as $choice) {
-            $choiceArray = $choice->toJsonObject();
+            $choiceArray[] = $choice->toJsonObject();
         }
 
         $this->_sayOK([
