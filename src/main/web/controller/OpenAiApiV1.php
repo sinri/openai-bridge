@@ -56,11 +56,16 @@ class OpenAiApiV1 extends ArkWebController
 
         $resp = $api->call();
 
-//        $choices = $resp->getChoices();
-//        foreach ($choices as $choice) {
-//           $choice->
-//        }
+        $choices = $resp->getChoices();
+        $choiceArray = [];
+        foreach ($choices as $choice) {
+            $choiceArray = $choice->toJsonObject();
+        }
 
-        $this->_sayOK($resp);
+        $this->_sayOK([
+            'id' => $resp->getId(),
+            'usage' => $resp->getUsage(),
+            'choices' => $choiceArray,
+        ]);
     }
 }

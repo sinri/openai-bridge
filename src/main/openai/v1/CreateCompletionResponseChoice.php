@@ -32,4 +32,9 @@ class CreateCompletionResponseChoice
     {
         return ArkHelper::readTarget($this->choiceDatum, ['finish_reason']);
     }
+
+    public function toJsonObject(): array
+    {
+        return $this->choiceDatum;
+    }
 }
