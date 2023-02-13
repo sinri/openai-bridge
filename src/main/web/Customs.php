@@ -23,7 +23,7 @@ class Customs extends ArkRequestFilter
             return false;
         }
 
-        if ($expectedToken === $bridgePassToken) {
+        if ($expectedToken !== $bridgePassToken) {
             $responseCode = 403;
             $error = "GO AWAY!!";
             return false;
