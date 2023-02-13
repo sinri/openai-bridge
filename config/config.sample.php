@@ -8,4 +8,7 @@ $config = [
         "key" => "",
         "org_id" => "",
     ],
+    'bridge' => [
+        'secret' => '',
+    ],
 ];
