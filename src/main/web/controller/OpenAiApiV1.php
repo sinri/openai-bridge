@@ -19,7 +19,7 @@ class OpenAiApiV1 extends ArkWebController
         $models = [];
         for ($i = 0; $i < $result->getTotalModels(); $i++) {
             $model = $result->getModelAt($i);
-            $models[] = $model;
+            $models[] = $model->getProperties();
         }
 
         $this->_sayOK([
