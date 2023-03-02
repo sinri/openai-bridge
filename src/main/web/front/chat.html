@@ -62,9 +62,9 @@
                     this.pass_id,
                     this.pass_secret,
                     (resp) => {
-                        this.models.clear();
+                        this.models = [];
                         for (let model in resp.data.data.models) {
-                            this.models.append(model);
+                            this.models.push(model);
                         }
                     },
                     (error) => {
@@ -73,7 +73,7 @@
                 )
             },
             fetch_completion: function () {
-                this.talks.append({
+                this.talks.push({
                     type: "ask",
                     content: this.prompt,
                 });
@@ -91,14 +91,14 @@
                     this.pass_secret,
                     (resp) => {
                         let answer = resp.data.choices[0];
-                        this.talks.append({
+                        this.talks.push({
                             type: "answer",
                             content: answer,
                         });
                     },
                     (error) => {
                         console.error(error);
-                        this.talks.append({
+                        this.talks.push({
                             type: "warning",
                             content: error,
                         });
