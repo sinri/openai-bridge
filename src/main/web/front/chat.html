@@ -34,9 +34,10 @@
     <div>
         <p>TALKS</p>
         <p style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
-        <p v-for="talk in talks">
-        <p>{{talk.type}} &nbsp; {{talk.when}}</p>
-        <p v-html="talk.content"></p>
+        <div v-for="talk in talks">
+            <p>{{talk.type}} &nbsp; {{talk.when}}</p>
+            <p v-html="talk.content"></p>
+        </div>
     </div>
     <div>
         <textarea v-model="prompt"></textarea>
