@@ -5,6 +5,7 @@ namespace sinri\openai\bridge\web\controller;
 use sinri\ark\io\exception\TargetFileNotFoundError;
 use sinri\ark\web\exception\ArkWebRequestFailed;
 use sinri\ark\web\implement\ArkWebController;
+use sinri\openai\bridge\openai\v1\chat\ChatRequest;
 use sinri\openai\bridge\openai\v1\completion\CompletionRequest;
 use sinri\openai\bridge\openai\v1\image\GenerateImageRequest;
 use sinri\openai\bridge\openai\v1\model\GetModelsRequest;
@@ -66,6 +67,25 @@ class OpenAiApiV1 extends ArkWebController
             'id' => $resp->id,
             'usage' => $resp->getUsageEntity()->getProperties(),
             'choices' => $choiceArray,
+        ]);
+    }
+
+    public function chat()
+    {
+        $model = $this->_readIndispensableRequest("model");
+        $messages = $this->_readIndispensableRequest("messages");
+        $api = new ChatRequest($model, $messages);
+        $chatResultEntity = $api->call();
+        $choices = $chatResultEntity->getChoices();
+
+        $array = [];
+        foreach ($choices as $choice) {
+            $array[] = $choice->getProperties();
+        }
+        $this->_sayOK([
+            'id' => $chatResultEntity->id,
+            'usage' => $chatResultEntity->getUsageEntity()->getProperties(),
+            'choices' => $array,
         ]);
     }
 
