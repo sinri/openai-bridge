@@ -33,10 +33,11 @@
     </div>
     <div>
         <p>TALKS</p>
-        <p style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
-        <div v-for="talk in talks">
-            <p>{{talk.type}} &nbsp; {{talk.when}}</p>
-            <div v-html="talk.content"></div>
+        <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
+            <div v-for="talk in talks">
+                <p>{{talk.type}} &nbsp; {{talk.when}}</p>
+                <div v-html="talk.content"></div>
+            </div>
         </div>
     </div>
     <div>
