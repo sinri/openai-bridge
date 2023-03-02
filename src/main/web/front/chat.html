@@ -22,7 +22,7 @@
             &nbsp;&nbsp;
             <select v-model="selected_model">
                 <option disabled value="">Please select one</option>
-                <option v-for="option in models">{{option}}</option>
+                <option v-for="option in models">{{option.id}}</option>
             </select>
             &nbsp;&nbsp;
             <code>{{selected_model}}</code>
@@ -63,7 +63,7 @@
                     this.pass_secret,
                     (resp) => {
                         this.models = [];
-                        for (let model in resp.data.data.models) {
+                        for (let model of resp.data.data.models) {
                             this.models.push(model);
                         }
                     },
