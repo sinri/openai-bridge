@@ -16,7 +16,7 @@
         <p>
             <label>SECRET</label>
             &nbsp;&nbsp;
-            <input type="password" v-model:value="pass_secret">
+            <input type="password" v-model="pass_secret">
         </p>
         <p>
             <span>Current Selected Model:</span>
@@ -25,23 +25,21 @@
                 <option disabled value="">Please select one</option>
                 <option v-for="option in models">{{option.id}}</option>
             </select>
-            &nbsp;&nbsp;
-            <code>{{selected_model}}</code>
+            <!--            &nbsp;&nbsp;-->
+            <!--            <code>{{selected_model}}</code>-->
             &nbsp;&nbsp;
             <button v-on:click="fetch_models">fetch models</button>
         </p>
     </div>
     <div>
         <p>TALKS</p>
-        <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
-            <div v-for="talk in talks">
-                <div style="display: flex;">{{talk.type}}</div>
-                <div style="display:flex;" v-html="talk.content"></div>
-            </div>
-        </div>
+        <p style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
+        <p v-for="talk in talks">
+        <p>{{talk.type}} &nbsp; {{talk.when}}</p>
+        <p v-html="talk.content"></p>
     </div>
     <div>
-        <input v-model:value="prompt">
+        <textarea v-model="prompt"></textarea>
         <button v-on:click="fetch_completion">Send</button>
     </div>
 </div>
@@ -78,6 +76,7 @@
                 this.talks.push({
                     type: "ask",
                     content: this.prompt,
+                    when: new Date(),
                 });
                 call_bridge_api(
                     "/OpenAiApiV1/completion",
@@ -97,13 +96,16 @@
                         this.talks.push({
                             type: "answer",
                             content: marked(answer.text),
+                            when: new Date(),
                         });
+                        this.prompt = "";
                     },
                     (error) => {
                         console.error("fetch_completion error", error);
                         this.talks.push({
                             type: "warning",
                             content: error,
+                            when: new Date(),
                         });
                     }
                 )
