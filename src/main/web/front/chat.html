@@ -20,7 +20,8 @@
         <p>
             <span>Current Selected Model:</span>
             &nbsp;&nbsp;
-            <select v-model:value="selected_model">
+            <select v-model="selected_model">
+                <option disabled value="">Please select one</option>
                 <option v-for="option in options">{{option}}</option>
             </select>
             &nbsp;&nbsp;
