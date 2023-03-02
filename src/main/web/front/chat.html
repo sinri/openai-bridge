@@ -14,21 +14,22 @@
     <h1>Chat - OpenAI Bridge</h1>
     <div>
         <p>
+            Prepare Step 1: Input &nbsp;&nbsp;
             <label>SECRET</label>
             &nbsp;&nbsp;
             <input type="password" v-model="pass_secret">
         </p>
         <p>
-            <span>Current Selected Model:</span>
+            Prepare Step 2: &nbsp;&nbsp;
+            <button v-on:click="fetch_models">Fetch Models</button>
+            &nbsp;&nbsp;
+            and
+            <span>Select Model:</span>
             &nbsp;&nbsp;
             <select v-model="selected_model">
                 <option disabled value="">Please select one</option>
                 <option v-for="option in models">{{option.id}}</option>
             </select>
-            <!--            &nbsp;&nbsp;-->
-            <!--            <code>{{selected_model}}</code>-->
-            &nbsp;&nbsp;
-            <button v-on:click="fetch_models">fetch models</button>
         </p>
     </div>
     <div>
@@ -41,6 +42,7 @@
         </div>
     </div>
     <div>
+        <p>Write your text here and send to OpenAI!</p>
         <textarea style="width: 60vw;height: 6em" v-model="prompt"></textarea>
         <button v-on:click="fetch_completion">Send</button>
     </div>
