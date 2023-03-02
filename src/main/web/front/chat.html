@@ -90,14 +90,15 @@
                     this.pass_id,
                     this.pass_secret,
                     (resp) => {
-                        let answer = resp.data.choices[0];
+                        console.log("fetch_completion resp", resp);
+                        let answer = resp.data.data.choices[0];
                         this.talks.push({
                             type: "answer",
                             content: answer,
                         });
                     },
                     (error) => {
-                        console.error(error);
+                        console.error("fetch_completion error", error);
                         this.talks.push({
                             type: "warning",
                             content: error,
