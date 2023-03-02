@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat - OpenAI Bridge</title>
+    <script src="https://unpkg.com/pure-md5@latest/lib/index.js"></script>
+    <script src="https://unpkg.com/axios@0.18.0/dist/axios.js"></script>
+    <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+    <script src="static/openai-bridge-api.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>Chat - OpenAI Bridge</h1>
+    <div>
+        <p>
+            <label>SECRET</label>
+            &nbsp;&nbsp;
+            <input type="password" v-model:value="pass_secret">
+        </p>
+        <p>
+            <span>Current Selected Model:</span>
+            &nbsp;&nbsp;
+            <select v-model:value="selected_model">
+                <option v-for="option in options">{{option}}</option>
+            </select>
+            &nbsp;&nbsp;
+            <code>{{selected_model}}</code>
+            &nbsp;&nbsp;
+            <button v-on:click="fetch_models">fetch models</button>
+        </p>
+    </div>
+    <div>
+        <p>TALKS</p>
+        <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
+            <p v-for="talk in talks">
+                {{talk}}
+            </p>
+        </div>
+    </div>
+    <div>
+        <input v-model:value="prompt">
+        <button v-on:click="fetch_completion">Send</button>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            pass_id: 'bridge-front',
+            pass_secret: "",
+            models: [],
+            talks: [],
+            selected_model: "",
+            prompt: "",
+        },
+        methods: {
+            fetch_models: function () {
+                call_bridge_api(
+                    "/OpenAiApiV1/getModels",
+                    {},
+                    this.pass_id,
+                    this.pass_secret,
+                    (resp) => {
+                        this.models.clear();
+                        for (let model in resp.data.data.models) {
+                            this.models.append(model);
+                        }
+                    },
+                    (error) => {
+                        console.error(error)
+                    }
+                )
+            },
+            fetch_completion: function () {
+                this.talks.append({
+                    type: "ask",
+                    content: this.prompt,
+                });
+                call_bridge_api(
+                    "/OpenAiApiV1/completion",
+                    {
+                        model: this.selected_model,
+                        prompt: this.prompt,
+                        max_tokens: 1024,
+                        temperature: null,
+                        top_p: null,
+                        n: 1,
+                    },
+                    this.pass_id,
+                    this.pass_secret,
+                    (resp) => {
+                        let answer = resp.data.choices[0];
+                        this.talks.append({
+                            type: "answer",
+                            content: answer,
+                        });
+                    },
+                    (error) => {
+                        console.error(error);
+                        this.talks.append({
+                            type: "warning",
+                            content: error,
+                        });
+                    }
+                )
+            }
+        },
+        mounted: function () {
+        }
+    })
+</script>
+</body>
+</html>
