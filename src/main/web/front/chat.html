@@ -35,8 +35,8 @@
         <p>TALKS</p>
         <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
             <div v-for="talk in talks">
-                <span>{{talk.type}}</span>
-                <span>{{talk.content}}</span>
+                <div style="display: flex;">{{talk.type}}</div>
+                <div style="display:flex;" v-html="talk.content"></div>
             </div>
         </div>
     </div>
