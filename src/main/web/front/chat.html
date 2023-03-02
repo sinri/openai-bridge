@@ -37,7 +37,9 @@
         <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
             <div v-for="talk in talks">
                 <p>{{talk.type}} &nbsp; {{talk.when}}</p>
-                <div v-html="talk.content"></div>
+                <div>
+                    <pre v-html="talk.content"></pre>
+                </div>
             </div>
         </div>
     </div>
@@ -99,7 +101,7 @@
                         let answer = resp.data.data.choices[0];
                         this.talks.push({
                             type: "answer",
-                            content: marked(answer.text),
+                            content: answer.text,//marked(answer.text),
                             when: new Date(),
                         });
                         this.prompt = "";
