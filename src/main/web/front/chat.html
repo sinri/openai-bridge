@@ -93,6 +93,10 @@
                         })
                     }
                 }
+                messages.push({
+                    role: 'user',
+                    content: this.prompt,
+                });
 
                 call_bridge_api(
                     "/OpenAiApiV1/chat",
