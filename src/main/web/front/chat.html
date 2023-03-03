@@ -116,8 +116,8 @@
                             when: new Date(),
                         });
                         this.talks.push({
-                            type: "system",
-                            content: answer.text,//marked(answer.text),
+                            role: answer.message.role,
+                            content: answer.message.content,//marked(answer.text),
                             when: new Date(),
                         });
                         this.prompt = "";
