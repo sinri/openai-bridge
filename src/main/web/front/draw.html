@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draw - OpenAI Bridge</title>
+    <script src="https://unpkg.com/pure-md5@latest/lib/index.js"></script>
+    <script src="https://unpkg.com/axios@1.3.4/dist/axios.js"></script>
+    <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+    <script src="static/openai-bridge-api.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>Completion - OpenAI Bridge</h1>
+    <div>
+        <p>
+            Prepare Step 1: Input &nbsp;&nbsp;
+            <label>SECRET</label>
+            &nbsp;&nbsp;
+            <input type="password" v-model="pass_secret">
+        </p>
+        <p>
+            <textarea v-model="prompt"></textarea>
+        </p>
+        <p>
+            <button v-on:click="fetch_drawn_image_url">Let DALL.E Draw!</button>
+        </p>
+    </div>
+    <div>
+        <div v-for="image_url in image_urls">
+            <p>
+                <img :src="image_url"/>
+            </p>
+            <p>
+                <code>{{image_url}}</code>
+            </p>
+        </div>
+        <div>Totally {{image_urls.length}} Images Drawn.</div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            pass_id: 'bridge-front',
+            pass_secret: "",
+            prompt: "",
+            image_urls: [],
+        },
+        methods: {
+            fetch_drawn_image_url: function () {
+                call_bridge_api(
+                    "/OpenAiApiV1/generateImageForUrl",
+                    {
+                        prompt: this.prompt,
+                    },
+                    this.pass_id,
+                    this.pass_secret,
+                    (resp) => {
+                        this.image_urls = resp.data.data.image_urls;
+                    },
+                    (error) => {
+                        console.error(error)
+                    }
+                )
+            }
+        },
+        mounted: function () {
+        }
+    });
+</script>
+</body>
+</html>
