@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chat - OpenAI Bridge</title>
+    <title>Completion - OpenAI Bridge</title>
     <script src="https://unpkg.com/pure-md5@latest/lib/index.js"></script>
     <script src="https://unpkg.com/axios@1.3.4/dist/axios.js"></script>
     <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="app">
-    <h1>Chat - OpenAI Bridge</h1>
+    <h1>Completion - OpenAI Bridge</h1>
     <div>
         <p>
             Prepare Step 1: Input &nbsp;&nbsp;
@@ -30,24 +30,31 @@
                 <option disabled value="">Please select one</option>
                 <option v-for="option in models">{{option.id}}</option>
             </select>
-            <span>Currently, only `gpt-3.5-turbo` and `gpt-3.5-turbo-0301` are supported.</span>
         </p>
     </div>
     <div>
-        <p>TALKS</p>
+        <p>Completion History</p>
         <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
-            <div v-for="talk in talks">
-                <p>{{talk.type}} &nbsp; {{talk.when}}</p>
+            <div v-for="completion in completions">
+                <p>
+                    <code>{{completion.status}}</code>&nbsp;
+                    On {{completion.request_time}} &nbsp;use model {{completion.model}}
+                </p>
+                <p>Prompt: </p>
                 <div>
-                    <pre v-html="talk.content"></pre>
+                    <pre v-html="completion.prompt"></pre>
+                </div>
+                <p>Completion:</p>
+                <div>
+                    <pre v-html="completion.completion"></pre>
                 </div>
             </div>
         </div>
     </div>
     <div>
-        <p>Start Chatting!</p>
+        <p>Write your text here and send to OpenAI!</p>
         <textarea style="width: 60vw;height: 6em" v-model="prompt"></textarea>
-        <button v-on:click="fetch_chat">Send</button>
+        <button v-on:click="fetch_completion">Send</button>
     </div>
 </div>
 <script>
@@ -57,7 +64,7 @@
             pass_id: 'bridge-front',
             pass_secret: "",
             models: [],
-            talks: [],
+            completions: [],
             selected_model: "",
             prompt: "",
         },
@@ -79,52 +86,43 @@
                     }
                 )
             },
-            fetch_chat: function () {
-                let messages = [];
-
-                for (let i = Math.max(0, this.talks.length - 10); i < this.talks.length; i++) {
-                    let talk = this.talks[i];
-                    let role = talk['role'];
-                    let content = talk['content'];
-                    if (role === 'user' || role === 'system' || role === 'assistant') {
-                        messages.push({
-                            role: role,
-                            content: content
-                        })
-                    }
+            fetch_completion: function () {
+                let new_index = this.completions.length;
+                let completion = {
+                    'model': this.selected_model,
+                    'prompt': this.prompt,
+                    'request_time': new Date(),
+                    'completion': '',
+                    'status': 'init',
                 }
-
                 call_bridge_api(
-                    "/OpenAiApiV1/chat",
+                    "/OpenAiApiV1/completion",
                     {
                         model: this.selected_model,
                         prompt: this.prompt,
-                        messages: messages,
+                        max_tokens: 1024,
+                        temperature: null,
+                        top_p: null,
+                        n: 1,
                     },
                     this.pass_id,
                     this.pass_secret,
                     (resp) => {
-                        console.log("fetch_chat resp", resp);
+                        console.log("fetch_completion resp", resp);
                         let answer = resp.data.data.choices[0];
-                        this.talks.push({
-                            role: "user",
-                            content: this.prompt,
-                            when: new Date(),
-                        });
-                        this.talks.push({
-                            type: "system",
-                            content: answer.text,//marked(answer.text),
-                            when: new Date(),
-                        });
+                        completion['completion'] = answer.text;
+                        completion['response_time'] = new Date();
+                        completion['status'] = 'done';
+                        this.completions.push(completion);
                         this.prompt = "";
                     },
                     (error) => {
-                        console.error("fetch_chat error", error);
-                        this.talks.push({
-                            type: "warning",
-                            content: "Sent [" + this.prompt + "] and failed: " + error,
-                            when: new Date(),
-                        });
+                        console.error("fetch_completion error", error);
+
+                        completion['completion'] = error;
+                        completion['response_time'] = new Date();
+                        completion['status'] = 'error';
+                        this.completions.push(completion);
                     }
                 )
             }

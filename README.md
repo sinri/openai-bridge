@@ -36,6 +36,15 @@ Parameters:
 * top_p float optional
 * n int default as 1
 
+### Chat
+
+URL: SCHEMA://DOMAIN/bridge/OpenAiApiV1/chat
+
+Parameters:
+
+* model string defined and provided by OpenAI
+* messages
+
 ### Generate Image For Url
 
 URL: SCHEMA://DOMAIN/bridge/OpenAiApiV1/generateImageForUrl
