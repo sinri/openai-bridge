@@ -6,7 +6,7 @@
     <script src="https://unpkg.com/pure-md5@latest/lib/index.js"></script>
     <script src="https://unpkg.com/axios@1.3.4/dist/axios.js"></script>
     <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
-    <script src="static/openai-bridge-api.js"></script>
+    <script src="static/azure-openai-bridge-api.js"></script>
 </head>
 <body>
 <div id="app">
@@ -42,7 +42,6 @@
         data: {
             pass_id: 'bridge-front',
             pass_secret: "",
-            models: [],
             talks: [],
             selected_model: "",
             prompt: "",
@@ -67,10 +66,9 @@
                     content: this.prompt,
                 });
 
-                call_bridge_api(
+                call_bridge_api_for_azure_openai(
                     "/AzureOpenaiApiV1/chat",
                     {
-                        model: this.selected_model,
                         prompt: this.prompt,
                         messages: messages,
                     },

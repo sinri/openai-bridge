@@ -12,6 +12,7 @@ class AzureOpenaiApiV1 extends ArkWebController
 {
     public function chat()
     {
+        $prompt = $this->_readRequest("prompt");
         $messages = $this->_readRequest('messages');
         if (!is_array($messages)) {
             throw new ArkWebRequestFailed("messages is invalid");
@@ -22,6 +23,7 @@ class AzureOpenaiApiV1 extends ArkWebController
         foreach ($messages as $message) {
             $sdk->addMessageEntity(new ChatMessage($message));
         }
+        $sdk->addMessageForUser($prompt);
         $resp = $sdk->requestForChatCompletion();
         $this->_sayOK($resp->getProperties());
     }
