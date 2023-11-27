@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat - Azure Openai Bridge</title>
+    <script src="https://unpkg.com/pure-md5@latest/lib/index.js"></script>
+    <script src="https://unpkg.com/axios@1.3.4/dist/axios.js"></script>
+    <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+    <script src="static/openai-bridge-api.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>Chat - Azure Openai Bridge</h1>
+    <div>
+        <p>
+            Prepare Step 1: Input &nbsp;&nbsp;
+            <label>SECRET</label>
+            &nbsp;&nbsp;
+            <input v-model="pass_secret" type="password">
+        </p>
+    </div>
+    <div>
+        <p>TALKS</p>
+        <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
+            <div v-for="talk in talks">
+                <p>{{ talk.type }} &nbsp; {{ talk.when }}</p>
+                <div>
+                    <pre v-html="talk.content"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>Start Chatting!</p>
+        <textarea v-model="prompt" style="width: 60vw;height: 6em"></textarea>
+        <button v-on:click="fetch_chat">Send</button>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            pass_id: 'bridge-front',
+            pass_secret: "",
+            models: [],
+            talks: [],
+            selected_model: "",
+            prompt: "",
+        },
+        methods: {
+            fetch_chat: function () {
+                let messages = [];
+
+                for (let i = Math.max(0, this.talks.length - 10); i < this.talks.length; i++) {
+                    let talk = this.talks[i];
+                    let role = talk['role'];
+                    let content = talk['content'];
+                    if (role === 'user' || role === 'system' || role === 'assistant') {
+                        messages.push({
+                            role: role,
+                            content: content
+                        })
+                    }
+                }
+                messages.push({
+                    role: 'user',
+                    content: this.prompt,
+                });
+
+                call_bridge_api(
+                    "/AzureOpenaiApiV1/chat",
+                    {
+                        model: this.selected_model,
+                        prompt: this.prompt,
+                        messages: messages,
+                    },
+                    this.pass_id,
+                    this.pass_secret,
+                    (resp) => {
+                        console.log("fetch_chat resp", resp);
+                        let answer = resp.data.data.choices[0];
+                        this.talks.push({
+                            role: "user",
+                            content: this.prompt,
+                            when: new Date(),
+                        });
+                        this.talks.push({
+                            role: answer.message.role,
+                            content: answer.message.content,//marked(answer.text),
+                            when: new Date(),
+                        });
+                        this.prompt = "";
+                    },
+                    (error) => {
+                        console.error("fetch_chat error", error);
+                        this.talks.push({
+                            type: "warning",
+                            content: "Sent [" + this.prompt + "] and failed: " + error,
+                            when: new Date(),
+                        });
+                    }
+                )
+            }
+        }
+    });
+</script>
+</body>
+</html>
