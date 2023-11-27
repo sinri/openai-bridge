@@ -12,18 +12,24 @@
 <div id="app">
     <h1>Chat - Azure Openai Bridge</h1>
     <div>
-        <p>
-            Prepare Step 1: Input &nbsp;&nbsp;
-            <label>SECRET</label>
+        <p>&nbsp;&nbsp;
+            <label>Secret</label>
             &nbsp;&nbsp;
             <input v-model="pass_secret" type="password">
+            &nbsp;&nbsp;
+            <button v-on:click="reset_chat">Reset Chat</button>
+        </p>
+        <p>&nbsp;&nbsp;
+            <label>System</label>
+            &nbsp;&nbsp;
+            <textarea v-model="system_prompt"></textarea>
         </p>
     </div>
     <div>
         <p>TALKS</p>
         <div style="height: 60vh;overflow: scroll;border: 1px solid darkblue;">
             <div v-for="talk in talks">
-                <p>{{ talk.type }} &nbsp; {{ talk.when }}</p>
+                <p>{{ talk.role }} &nbsp; {{ talk.when.toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'}) }}</p>
                 <div>
                     <pre v-html="talk.content"></pre>
                 </div>
@@ -44,10 +50,22 @@
             pass_secret: "",
             talks: [],
             prompt: "",
+            system_prompt: "",
         },
         methods: {
+            reset_chat: function () {
+                this.talks.splice(0, this.talks.length);
+            },
             fetch_chat: function () {
                 let messages = [];
+
+                let system = this.system_prompt.trim();
+                if (system > 0) {
+                    messages.push({
+                        role: 'system',
+                        content: system,
+                    });
+                }
 
                 for (let i = Math.max(0, this.talks.length - 10); i < this.talks.length; i++) {
                     let talk = this.talks[i];
