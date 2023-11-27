@@ -60,7 +60,7 @@
                 let messages = [];
 
                 let system = this.system_prompt.trim();
-                if (system > 0) {
+                if (system.length > 0) {
                     messages.push({
                         role: 'system',
                         content: system,
