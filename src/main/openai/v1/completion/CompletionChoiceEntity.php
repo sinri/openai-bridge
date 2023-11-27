@@ -2,7 +2,7 @@
 
 namespace sinri\openai\bridge\openai\v1\completion;
 
-use sinri\openai\bridge\openai\AbstractEntity;
+use sinri\openai\bridge\core\AbstractEntity;
 
 /**
  * @property-read string text

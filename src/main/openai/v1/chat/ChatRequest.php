@@ -132,7 +132,7 @@ class ChatRequest extends OpenaiApiRequest
      * @param array|string|null $stop
      * @return ChatRequest
      */
-    public function setStop($stop)
+    public function setStop($stop): ChatRequest
     {
         $this->stop = $stop;
         return $this;

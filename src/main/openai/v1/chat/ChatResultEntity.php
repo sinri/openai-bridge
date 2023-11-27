@@ -2,7 +2,7 @@
 
 namespace sinri\openai\bridge\openai\v1\chat;
 
-use sinri\openai\bridge\openai\AbstractEntity;
+use sinri\openai\bridge\core\AbstractEntity;
 use sinri\openai\bridge\openai\v1\completion\CompletionUsageEntity;
 
 /**

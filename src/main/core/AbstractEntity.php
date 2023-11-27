@@ -1,6 +1,6 @@
 <?php
 
-namespace sinri\openai\bridge\openai;
+namespace sinri\openai\bridge\core;
 
 use RuntimeException;
 use sinri\ark\core\ArkHelper;

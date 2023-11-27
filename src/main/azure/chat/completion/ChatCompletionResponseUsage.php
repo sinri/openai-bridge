@@ -1,6 +1,6 @@
 <?php
 
-namespace sinri\openai\bridge\openai\v1\completion;
+namespace sinri\openai\bridge\azure\chat\completion;
 
 use sinri\openai\bridge\core\AbstractEntity;
 
@@ -9,6 +9,7 @@ use sinri\openai\bridge\core\AbstractEntity;
  * @property-read int completion_tokens
  * @property-read int total_tokens
  */
-class CompletionUsageEntity extends AbstractEntity
+class ChatCompletionResponseUsage extends AbstractEntity
 {
+
 }
