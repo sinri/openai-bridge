@@ -32,6 +32,45 @@ class ChatCompletionResponse extends AbstractEntity
      }
      */
 
+    /*
+     {
+        "id":"chatcmpl-8PiQgpZBGp65wxl0VEIjFCTwd5GKn",
+        "object":"chat.completion",
+        "created":1701139678,
+        "model":"gpt-4",
+        "prompt_filter_results":[
+            {
+                "prompt_index":0,
+                "content_filter_results":{
+                    "hate":{
+                        "filtered":false,
+                        "severity":"safe"
+                    },
+                    "self_harm":{"filtered":false,"severity":"safe"},
+                    "sexual":{"filtered":false,"severity":"safe"},
+                    "violence":{"filtered":false,"severity":"safe"}
+                }
+            }
+        ],
+        "choices":[
+            {
+                "index":0,
+                "finish_reason":"function_call",
+                "message":{
+                    "role":"assistant",
+                    "function_call":{
+                        "name":"product_seek_func",
+                        "arguments":"{\"keyword\":\"\\u5b89\\u5353\\u624b\\u673a\"}"
+                    }
+                },
+                "content_filter_results":[]
+            }
+        ],
+        "usage":{"prompt_tokens":120,"completion_tokens":28,"total_tokens":148},
+        "system_fingerprint":"fp_50a4261de5"
+    }
+     */
+
     /**
      * @return ChatCompletionResponseUsage
      */

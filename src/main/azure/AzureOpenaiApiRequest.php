@@ -27,7 +27,10 @@ abstract class AzureOpenaiApiRequest
         }
         $x = json_decode($resp, true);
         if (!is_array($x)) {
-            throw new RuntimeException("Call Azure Openai API But Responded Error");
+            throw new RuntimeException("Call Azure Openai API But Responded Format Error");
+        }
+        if (isset($x['error'])) {
+            throw new RuntimeException("Call Azure Openai API But Responded Error: " . $resp);
         }
 
         return $x;

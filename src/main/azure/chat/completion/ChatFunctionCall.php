@@ -20,4 +20,9 @@ class ChatFunctionCall extends AbstractEntity
             'arguments' => $arguments
         ]);
     }
+
+    public function getParsedArguments(): array
+    {
+        return json_decode($this->arguments, true);
+    }
 }
